@@ -32,6 +32,11 @@ Getting it
 -------
 Just clone this repo somewhere locally.
 
+Requirements
+------------
+Standart GNU/Linux gcc toolchain, git, and your favourite editor ;)
+
+
 Building
 --------
 Get into this repo dir, usually by `cd preload-getaddrinfo`, or very similar, and do:
@@ -50,9 +55,9 @@ You can automate both building and testing, by:
 make test
 ````
 
-Requirements
+BUGS
 ------------
-Standart GNU/Linux gcc toolchain, git, and your favourite editor ;)
+There are some, for sure...
 
 
 FAQ
