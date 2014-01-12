@@ -1,3 +1,6 @@
+/* preload-getaddrinfo.c */
+/* copyright (C) by paulius@chroot.lt 2014 */
+/* v0.3 */
 #define _GNU_SOURCE
 #include <assert.h>
 #include <ctype.h>
@@ -12,7 +15,7 @@
 #include <netinet/in.h>
 
 /* Hardcoded ip address for your proxy */
-#define PROXY_IP "192.168.1.1"
+#define PROXY_IP "192.168.170.253"
 
 /* Functions to be preloaded */
 int (*oldgetaddrinfo)(const char *, const char *, const struct addrinfo *, struct addrinfo **)=NULL;
@@ -28,7 +31,11 @@ int check_i2p(const char* name){
 	if ( dot && !strcasecmp(dot, ".i2p") ){
 		return 1;
 	}else{
-		return 0;
+		if ( dot && !strcasecmp(dot, ".onion") ){
+			return 1;
+		}else {
+			return 0;
+		}
 	}
 }
 

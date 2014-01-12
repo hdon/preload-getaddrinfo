@@ -1,5 +1,5 @@
 # simple makefile for preload-geettaddrinfo project
-# v0.3
+# v0.4
 
 .PHONY : testaddrinfo getaddrinfo
 
@@ -17,4 +17,5 @@ test: getaddrinfo.so testaddrinfo
 	LD_PRELOAD=./getaddrinfo.so ./testaddrinfo delfi.lt
 	LD_PRELOAD=./getaddrinfo.so ./testaddrinfo delfi.lv
 	LD_PRELOAD=./getaddrinfo.so ./testaddrinfo delfi.i2p
+	LD_PRELOAD=./getaddrinfo.so ./testaddrinfo asdf.onion
 

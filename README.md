@@ -4,11 +4,11 @@ preload-getaddrinfo
 A simple `LD_PRELOAD` module for GNU/Linux, intercepting `getaddrinfo()` and `gethostbyname()` glibc functions
 
 Originally was coded for complicated debugging task, but adapted 
-for some practical use, e.g. resolving .i2p domains to your proxy server.
+for some practical use, e.g. resolving .i2p/.onion links to your proxy server.
 
 Use case
 --------
-You want to access i2p links transparently, but no NOT want:
+You want to access i2p/tor links transparently, but no NOT want:
 - modify your DNS server
 - modify your browser proxy settings/domains inclusion, etc.
 
@@ -52,6 +52,32 @@ make testaddrinfo
 You can automate both building and testing, by:
 ````
 make test
+````
+
+Example usage (assuming your privoxy ip is 192.168.1.1)
+-------------------------------------------------------
+
+- set up privoxy like (/etc/privoxy/config):
+````
+accept-intercepted-requests 1
+listen-address  0.0.0.0:8118
+
+#i2p http proxy
+forward .i2p 127.0.0.1:4444 
+
+#tor socks proxy
+forward-socks4a .onion localhost:9050 .
+````
+
+- set up iptables like:
+````
+-A PREROUTING -d 192.168.1.1/32 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8118
+-A OUTPUT -d 192.168.1.1/32 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8118
+````
+
+- launch browser like:
+````
+LD_PRELOAD=./getaddrinfo.so
 ````
 
 BUGS

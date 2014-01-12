@@ -1,3 +1,6 @@
+/* testaddrinfo.c */
+/* copyright (C) by paulius@chroot.lt 2014 */
+/* v0.2 */
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
