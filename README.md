@@ -16,14 +16,14 @@ In this case getaddrinfo() preloader like this will help.
 
 You should:
 - Change hardcoded `PROXY_IP` define in getaddrinfo.c to your proxy ip
-- Setup your proxy server (like privoxy.org) listen on 80 port, using iptables, or privoxy configuration
-- Setup your proxy server to use i2p
-- preload gettaddrinfo.so to your browser instance you want, like:
+- Setup your proxy server (like privoxy) to listen on 80 port, using iptables/privoxy config
+- Setup your proxy server to use i2p/tor
+- preload gettaddrinfo.so to your browser instance, like:
 ````
 $ LD_PRELOAD=./getaddrinfo.so chromium-browser
 ````
 
-And suddenly you will be able transparently access @i2p sites by directly typing them into browser.
+And suddenly you will be able transparently access i2p/onion sites directly by typing them into browser.
  
 Also, you could extend it to some pretty sneak userland rootkit, ~~Hi, NSA~~, but better not do it.
 
@@ -34,7 +34,6 @@ Just clone this repo somewhere locally.
 Requirements
 ------------
 Standart GNU/Linux gcc toolchain, git, and your favourite editor ;)
-
 
 Building
 --------
@@ -57,7 +56,8 @@ make test
 Example usage (assuming your privoxy ip is 192.168.1.1)
 -------------------------------------------------------
 
-- set up privoxy like (/etc/privoxy/config):
+- set up privoxy (/etc/privoxy/config) like:
+
 ````
 accept-intercepted-requests 1
 listen-address  0.0.0.0:8118
@@ -70,14 +70,16 @@ forward-socks4a .onion localhost:9050 .
 ````
 
 - set up iptables like:
+
 ````
 -A PREROUTING -d 192.168.1.1/32 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8118
 -A OUTPUT -d 192.168.1.1/32 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8118
 ````
 
 - launch browser like:
+
 ````
-LD_PRELOAD=./getaddrinfo.so
+LD_PRELOAD=./getaddrinfo.so chromium-browser
 ````
 
 BUGS
