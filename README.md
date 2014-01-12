@@ -64,3 +64,8 @@ FAQ
 `Q:` Does you need `root` or similar administrative privileges to use it?
 
 `A:` No.
+
+`Q:` How do you make chromium understand custom TLD, like .ip2
+
+`A:` Enter address with `http://` prefix, like `http://eepnews.i2p/`, instead of just `eepnews.ip2`
+
