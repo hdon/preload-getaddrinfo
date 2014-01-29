@@ -82,6 +82,13 @@ forward-socks4a .onion localhost:9050 .
 LD_PRELOAD=./getaddrinfo.so chromium-browser
 ````
 
+Limitations
+------------
+- will not work on suid/sgid binaries (unless your .so will be suid/sgid too)
+- will not work on statically linked binaries (no need for shared functions)
+
+
+
 BUGS
 ------------
 There are some, for sure...
