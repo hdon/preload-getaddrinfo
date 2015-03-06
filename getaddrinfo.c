@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 #include <dlfcn.h>
@@ -14,9 +15,6 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
-/* Hardcoded ip address for your proxy */
-#define PROXY_IP "192.168.170.253"
-
 /* Functions to be preloaded */
 int (*oldgetaddrinfo)(const char *, const char *, const struct addrinfo *, struct addrinfo **)=NULL;
 struct hostent* (*oldgethostbyname)(const char *)=NULL;
@@ -25,18 +23,7 @@ struct hostent *he=NULL;
 
 /* Internal check of end of domainname */
 int check_i2p(const char* name){
-	char *dot;
-
-	dot = strrchr(name, '.');
-	if ( dot && !strcasecmp(dot, ".i2p") ){
-		return 1;
-	}else{
-		if ( dot && !strcasecmp(dot, ".onion") ){
-			return 1;
-		}else {
-			return 0;
-		}
-	}
+  return 1;
 }
 
 struct hostent *gethostbyname(const char *name){
@@ -50,7 +37,7 @@ struct hostent *gethostbyname(const char *name){
 		assert(he != NULL);
 		addr_list = (struct in_addr **)he->h_addr_list;
 		for( i = 0; addr_list[i] != NULL; i++) {
-			inet_aton(PROXY_IP, addr_list[i]);
+			inet_aton(getenv("FAKE_DEV_HOST"), addr_list[i]);
 		}
 	}else{
 		printf("Resolving %s by system gethostbyname()\n", name);
@@ -78,7 +65,7 @@ int getaddrinfo(const char *name, const char *service, const struct addrinfo *hi
 			if (rptr->ai_family == AF_INET) {
 				struct sockaddr_in *ipv4 = (struct sockaddr_in *)rptr->ai_addr;
 				ipaddr = &(ipv4->sin_addr);
-				inet_pton(AF_INET, PROXY_IP, ipaddr);
+				inet_pton(AF_INET, getenv("FAKE_DEV_HOST"), ipaddr);
 			}
 		}
 	} else{

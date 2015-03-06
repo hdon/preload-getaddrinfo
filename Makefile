@@ -1,11 +1,12 @@
 # simple makefile for preload-geettaddrinfo project
 # v0.4
 
+all : testaddrinfo getaddrinfo
+
 .PHONY : testaddrinfo getaddrinfo
 
-clean: rm testaddrinfo getaddrinfo.so
-
-all: testaddrinfo getaddrinfo test
+clean:
+	rm -f testaddrinfo getaddrinfo.so
 
 testaddrinfo:
 	gcc -o testaddrinfo testaddrinfo.c
