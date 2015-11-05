@@ -51,7 +51,7 @@ static int initializeHostsMap()
   lineNo = 0;
   while (getline(&buf, &bufSize, hostsFile) > 0) {
     char *c, *caddr;
-    printf("line: %s\n", buf);
+    //printf("line: %s\n", buf);
     c = strchr(buf, ':');
     if (!c)
     {
@@ -80,8 +80,8 @@ static int initializeHostsMap()
   }
   free(buf);
   initialized = 1;
-  printf("initialized hosts map\n");
-  fprintf(stderr, "initialized hosts map\n");
+  //printf("initialized hosts map\n");
+  //fprintf(stderr, "initialized hosts map\n");
   return 0;
 }
 
@@ -96,7 +96,7 @@ struct hostent *gethostbyname(const char *name){
 	struct in_addr **addr_list;
 	int i;
 
-  printf("Resolving %s by hooked gethostbyname()\n", name);
+  //printf("Resolving %s by hooked gethostbyname()\n", name);
 
   if (!initialized)
     initializeHostsMap();
@@ -107,7 +107,7 @@ struct hostent *gethostbyname(const char *name){
   fakeAddr = map_get(&hostsMap, name);
 	if (fakeAddr)
   {
-    printf("  resolved name with FAKE_HOSTS_FILE\n");
+    //printf("  resolved name with FAKE_HOSTS_FILE\n");
     // hdon sez: any reason to resolve this hostname every time?
 		he = oldgethostbyname("test.com"); /* dummy resolve to fill data structures, must always resolve */
 		assert(he != NULL);
@@ -116,7 +116,7 @@ struct hostent *gethostbyname(const char *name){
       *addr_list[i] = *fakeAddr;
 		}
 	}else{
-    printf("  resolving name with system gethostbyname()\n");
+    //printf("  resolving name with system gethostbyname()\n");
 		he = oldgethostbyname(name);
 		if (he == NULL){ 
 			herror("gethostbyname");
@@ -140,7 +140,7 @@ int getaddrinfo(const char *name, const char *service, const struct addrinfo *hi
   fakeAddr = map_get(&hostsMap, name);
 	if (fakeAddr)
   {
-		printf("Resolving %s by hooked getaddrinfo()\n", name);
+		//printf("Resolving %s by hooked getaddrinfo()\n", name);
     // hdon sez: any reason to resolve this hostname every time?
 		result = oldgetaddrinfo("test.com", service, hints, res); /* dummy resolve to fill data structures */
 		assert(result == 0);
@@ -151,7 +151,7 @@ int getaddrinfo(const char *name, const char *service, const struct addrinfo *hi
 			}
 		}
 	} else{
-		printf("Resolving %s by system getaddrinfo()\n", name);
+		//printf("Resolving %s by system getaddrinfo()\n", name);
 		result = oldgetaddrinfo(name, service, hints, res);
 	}
 	return result;
