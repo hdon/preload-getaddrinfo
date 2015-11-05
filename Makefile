@@ -9,10 +9,10 @@ clean:
 	rm -f testaddrinfo getaddrinfo.so
 
 testaddrinfo:
-	gcc -o testaddrinfo testaddrinfo.c
+	gcc -g -o testaddrinfo testaddrinfo.c
 
 getaddrinfo:
-	gcc -Wl,--no-as-needed -rdynamic -Wall -fPIC -shared -ldl -o getaddrinfo.so getaddrinfo.c
+	gcc -g -Wl,--no-as-needed -rdynamic -Wall -fPIC -shared -ldl -o getaddrinfo.so -I../map/src getaddrinfo.c ../map/src/map.c
 
 test: getaddrinfo.so testaddrinfo
 	LD_PRELOAD=./getaddrinfo.so ./testaddrinfo delfi.lt
