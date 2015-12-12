@@ -142,7 +142,7 @@ int getaddrinfo(const char *name, const char *service, const struct addrinfo *hi
   {
 		//printf("Resolving %s by hooked getaddrinfo()\n", name);
     // hdon sez: any reason to resolve this hostname every time?
-		result = oldgetaddrinfo("test.com", service, hints, res); /* dummy resolve to fill data structures */
+		result = oldgetaddrinfo("localhost", service, hints, res); /* dummy resolve to fill data structures */
 		assert(result == 0);
 		for( rptr = *res; rptr != NULL; rptr = rptr->ai_next ) {
       /* Only IPv4 is supported, currently */
